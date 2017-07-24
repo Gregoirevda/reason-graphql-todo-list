@@ -3,7 +3,7 @@ type todo = {
 };
 
 type state = {
-    todos: array string
+    todos: list string
 };
 
 let component = ReasonReact.statefulComponent "Page";
@@ -12,10 +12,10 @@ let make _children => {
   {
     ...component,
     initialState: fun () => {
-        todos: [|"hello", "world", "how are you"|]
+        todos: ["hello", "world", "how are "]
     },
     render: fun self => {
-    let todos = Array.map (fun todo => ReasonReact.stringToElement todo) self.state.todos;
+    let todos = List.map (fun todo => ReasonReact.stringToElement todo) self.state.todos;
     let title = "Todos";
     <header className="header">
         <h1>(ReasonReact.stringToElement title)</h1>
@@ -23,7 +23,7 @@ let make _children => {
             className="new-todo"
             placeholder="What needs to be done?"
         />
-        <div> (ReasonReact.arrayToElement todos) </div>
+        <div> (ReasonReact.arrayToElement (Array.of_list todos)) </div>
     </header>
     }
   }
