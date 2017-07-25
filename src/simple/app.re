@@ -23,6 +23,9 @@ let make children => {
             className="new-todo"
             placeholder="What needs to be done?"
         />
+/*
+        (ReasonReact.createElement (TodoList.make todos children))
+*/
         <TodosList todos/>
         <div> (se (string_of_int numOfItems)) </div>
         <button
