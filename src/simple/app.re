@@ -23,11 +23,10 @@ let make children => {
             className="new-todo"
             placeholder="What needs to be done?"
         />
-        (TodoList.make todos children)
+        <TodoList todos />
 /*
         <TodosList todos=(todos)/>
 */
-        <div> (ReasonReact.arrayToElement (state.todos)) </div>
         <div> (se (string_of_int numOfItems)) </div>
 
         <button

@@ -1,7 +1,7 @@
 open Types;
 let se = ReasonReact.stringToElement;
 let component = ReasonReact.statelessComponent "TodosList";
-let make ::todos(todos: list todo) _children => {
+let make ::todos _children => {
     {
         ...component,
         render: fun self => {
