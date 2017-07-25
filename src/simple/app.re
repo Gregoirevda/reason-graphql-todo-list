@@ -25,10 +25,10 @@ let make children => {
         />
         <TodoList todos />
 /*
-        <TodosList todos=(todos)/>
+        (ReasonReact.createElement (TodoList.make todos children))
 */
-        <div> (se (string_of_int numOfItems)) </div>
 
+        <div> (se (string_of_int numOfItems)) </div>
         <button
             onClick=(update (fun event {state} => {
                 ReasonReact.Update {

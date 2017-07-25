@@ -15,14 +15,12 @@ let make ::todos _children => {
                         ReasonReact.arrayToElement
                         (
                             Array.of_list
-                            (List.mapi (fun index todo => {
+                            (List.mapi (fun index todoItem => {
                                 <Todo
                                     key=(string_of_int index)
-                                    todo
+                                    todo=todoItem
                                 />
-                            }
-
-                            ) todos)
+                            }) todos)
                         )
                     )
                 </ul>
