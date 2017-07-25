@@ -1,29 +1,48 @@
-type todo = {
-    id: int
-};
+open Types;
 
 type state = {
-    todos: list string
+    todos: list todo
 };
+
+let se = ReasonReact.stringToElement;
+let lastTodoId = 0;
 
 let component = ReasonReact.statefulComponent "Page";
 
-let make _children => {
+let make children => {
   {
     ...component,
     initialState: fun () => {
-        todos: ["hello", "world", "how are "]
+        todos: []
     },
-    render: fun self => {
-    let todos = List.map (fun todo => ReasonReact.stringToElement todo) self.state.todos;
-    let title = "Todos";
+    render: fun {state: {todos}, update} => {
+    let numOfItems = List.length todos;
     <header className="header">
-        <h1>(ReasonReact.stringToElement title)</h1>
+        <h1>(ReasonReact.stringToElement "Todos")</h1>
         <input
             className="new-todo"
             placeholder="What needs to be done?"
         />
-        <div> (ReasonReact.arrayToElement (Array.of_list todos)) </div>
+        (TodoList.make todos children)
+/*
+        <TodosList todos=(todos)/>
+*/
+        <div> (ReasonReact.arrayToElement (state.todos)) </div>
+        <div> (se (string_of_int numOfItems)) </div>
+
+        <button
+            onClick=(update (fun event {state} => {
+                ReasonReact.Update {
+                    todos: [
+                        {
+                            title: "HI",
+                            id: lastTodoId + 1
+                        },
+                        ...state.todos
+                    ]
+                }
+            }))
+        > (se "CLICK") </button>
     </header>
     }
   }

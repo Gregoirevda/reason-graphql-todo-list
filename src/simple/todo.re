@@ -1,7 +1,7 @@
 let component = ReasonReact.statelessComponent "Todo";
-let make ::name _children => {
+let make ::todo _children => {
   ...component,
   render: fun _self => <div>
-    (ReasonReact.stringToElement name)
+    (ReasonReact.stringToElement todo)
   </div>
 };
