@@ -10,21 +10,22 @@ let make ::todos(todos: list todo) _children => {
                     className="toggle-all"
                 />
                 <ul className="todo-list">
-                    (se (string_of_int (List.length todos)))
+                <Todo
+                    todo=(List.hd todos)
+                />
+                    /*(se (string_of_int (List.length todos)))
                     (
                         ReasonReact.arrayToElement
                         (
                             Array.of_list
-                            (List.mapi (fun index todo => {
+                            (List.mapi (fun index todoItem => {
                                 <Todo
                                     key=(string_of_int index)
-                                    todo
+                                    todo=todoItem
                                 />
-                            }
-
-                            ) todos)
+                            }) todos)
                         )
-                    )
+                    )*/
                 </ul>
             </section>
         }
