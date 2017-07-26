@@ -1,4 +1,5 @@
 type todo = {
     id: int,
-    title: string
+    title: string,
+    active: bool
 };
