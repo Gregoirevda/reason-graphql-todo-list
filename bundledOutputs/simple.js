@@ -68,6 +68,7 @@
 	var Curry       = __webpack_require__(3);
 	var React       = __webpack_require__(20);
 	var TodoList    = __webpack_require__(205);
+	var TodoInput   = __webpack_require__(211);
 	var Pervasives  = __webpack_require__(8);
 	var ReasonReact = __webpack_require__(55);
 
@@ -75,11 +76,9 @@
 	  return prim;
 	}
 
-	var component = ReasonReact.statefulComponent("Page");
+	var lastTodoId = [0];
 
-	function valueFromEvent($$event) {
-	  return $$event.target.value;
-	}
+	var component = ReasonReact.statefulComponent("Page");
 
 	function make() {
 	  var newrecord = component.slice();
@@ -89,59 +88,45 @@
 	      List.length(todos);
 	      return React.createElement("header", {
 	                  className: "header"
-	                }, React.createElement("h1", undefined, "Todos"), React.createElement("input", {
-	                      className: "new-todo",
-	                      placeholder: "What needs to be done?",
-	                      onKeyDown: Curry._1(update, (function ($$event, param) {
-	                              if ($$event.key === "Enter") {
-	                                var state = param[/* state */3];
-	                                return /* Update */Block.__(0, [/* record */[
-	                                            /* todos : :: */[
+	                }, React.createElement("h1", undefined, "Todos"), ReasonReact.element(/* None */0, /* None */0, TodoInput.make(Curry._1(update, (function (text, param) {
+	                                lastTodoId[0] = lastTodoId[0] + 1 | 0;
+	                                return /* Update */Block.__(0, [/* record */[/* todos : :: */[
 	                                              /* record */[
-	                                                /* id */1,
-	                                                /* title */state[/* todoInput */1],
+	                                                /* id */lastTodoId[0],
+	                                                /* title */text,
 	                                                /* active : true */1
 	                                              ],
-	                                              state[/* todos */0]
-	                                            ],
-	                                            /* todoInput */""
-	                                          ]]);
-	                              } else {
-	                                return /* NoUpdate */0;
-	                              }
-	                            })),
-	                      onChange: Curry._1(update, (function ($$event, param) {
-	                              return /* Update */Block.__(0, [/* record */[
-	                                          /* todos */param[/* state */3][/* todos */0],
-	                                          /* todoInput */$$event.target.value
-	                                        ]]);
-	                            }))
-	                    }), ReasonReact.element(/* None */0, /* None */0, TodoList.make(todos, Curry._1(update, (function (_, param) {
-	                                var state = param[/* state */3];
-	                                return /* Update */Block.__(0, [/* record */[
-	                                            /* todos */List.map((function (todo) {
-	                                                    return todo;
-	                                                  }), state[/* todos */0]),
-	                                            /* todoInput */state[/* todoInput */1]
-	                                          ]]);
+	                                              param[/* state */3][/* todos */0]
+	                                            ]]]);
+	                              })), /* array */[])), ReasonReact.element(/* None */0, /* None */0, TodoList.make(todos, Curry._1(update, (function (id, param) {
+	                                return /* Update */Block.__(0, [/* record */[/* todos */List.map((function (todo) {
+	                                                    var match = +(todo[/* id */0] === id);
+	                                                    if (match !== 0) {
+	                                                      return /* record */[
+	                                                              /* id */todo[/* id */0],
+	                                                              /* title */todo[/* title */1],
+	                                                              /* active */1 - todo[/* active */2]
+	                                                            ];
+	                                                    } else {
+	                                                      return todo;
+	                                                    }
+	                                                  }), param[/* state */3][/* todos */0])]]);
+	                              })), Curry._1(update, (function (id, param) {
+	                                return /* Update */Block.__(0, [/* record */[/* todos */List.filter((function (todo) {
+	                                                      return +(todo[/* id */0] !== id);
+	                                                    }))(param[/* state */3][/* todos */0])]]);
 	                              })), /* array */[])), React.createElement("div", undefined, "Amount of todos: " + Pervasives.string_of_int(List.length(todos))));
 	    });
 	  newrecord[/* initialState */10] = (function () {
-	      return /* record */[
-	              /* todos : [] */0,
-	              /* todoInput */""
-	            ];
+	      return /* record */[/* todos : [] */0];
 	    });
 	  return newrecord;
 	}
 
-	var lastTodoId = 0;
-
-	exports.se             = se;
-	exports.lastTodoId     = lastTodoId;
-	exports.component      = component;
-	exports.valueFromEvent = valueFromEvent;
-	exports.make           = make;
+	exports.se         = se;
+	exports.lastTodoId = lastTodoId;
+	exports.component  = component;
+	exports.make       = make;
 	/* component Not a pure module */
 
 
@@ -28656,16 +28641,18 @@
 
 	var component = ReasonReact.statelessComponent("TodosList");
 
-	function make(todos, toggleTodo, _) {
+	function make(todos, toggleTodo, deleteTodo, _) {
 	  var newrecord = component.slice();
 	  newrecord[/* render */9] = (function () {
 	      return React.createElement("section", {
 	                  className: "main"
 	                }, React.createElement("ul", {
 	                      className: "todo-list"
-	                    }, $$Array.of_list(List.mapi((function (index, todoItem) {
-	                                return ReasonReact.element(/* Some */[Pervasives.string_of_int(index)], /* None */0, TodoItem.make(todoItem, (function () {
-	                                                  return Curry._1(toggleTodo, index);
+	                    }, $$Array.of_list(List.mapi((function (index, todo) {
+	                                return ReasonReact.element(/* Some */[Pervasives.string_of_int(index)], /* None */0, TodoItem.make(todo, (function () {
+	                                                  return Curry._1(toggleTodo, todo[/* id */0]);
+	                                                }), (function () {
+	                                                  return Curry._1(deleteTodo, todo[/* id */0]);
 	                                                }), /* array */[]));
 	                              }), todos))));
 	    });
@@ -29187,25 +29174,29 @@
 
 	var Curry       = __webpack_require__(3);
 	var React       = __webpack_require__(20);
-	var Js_boolean  = __webpack_require__(210);
 	var ReasonReact = __webpack_require__(55);
 
 	var component = ReasonReact.statelessComponent("Todo");
 
-	function make(todo, toggleTodo, _) {
+	function make(todo, toggleTodo, deleteTodo, _) {
 	  var newrecord = component.slice();
 	  newrecord[/* render */9] = (function () {
-	      return React.createElement("li", undefined, React.createElement("div", {
+	      var match = todo[/* active */2];
+	      return React.createElement("li", {
+	                  className: match !== 0 ? "" : "completed"
+	                }, React.createElement("div", {
 	                      className: "view"
 	                    }, React.createElement("input", {
 	                          className: "toggle",
-	                          checked: Js_boolean.to_js_boolean(todo[/* active */2]),
 	                          type: "checkbox",
 	                          onChange: (function () {
 	                              return Curry._1(toggleTodo, /* () */0);
 	                            })
 	                        }), React.createElement("label", undefined, todo[/* title */1]), React.createElement("button", {
-	                          className: "destroy"
+	                          className: "destroy",
+	                          onClick: (function () {
+	                              return Curry._1(deleteTodo, /* () */0);
+	                            })
 	                        })));
 	    });
 	  return newrecord;
@@ -29217,22 +29208,57 @@
 
 
 /***/ }),
-/* 210 */
-/***/ (function(module, exports) {
+/* 210 */,
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
 
+	// Generated by BUCKLESCRIPT VERSION 1.8.1, PLEASE EDIT WITH CARE
 	'use strict';
 
+	var Block       = __webpack_require__(7);
+	var Curry       = __webpack_require__(3);
+	var React       = __webpack_require__(20);
+	var ReasonReact = __webpack_require__(55);
 
-	function to_js_boolean(b) {
-	  if (b) {
-	    return true;
-	  } else {
-	    return false;
-	  }
+	function valueFromEvent($$event) {
+	  return $$event.target.value;
 	}
 
-	exports.to_js_boolean = to_js_boolean;
-	/* No side effect */
+	var component = ReasonReact.statefulComponent("Greeting");
+
+	function make(addTodo, _) {
+	  var newrecord = component.slice();
+	  newrecord[/* render */9] = (function (param) {
+	      var text = param[/* state */3];
+	      var update = param[/* update */2];
+	      return React.createElement("input", {
+	                  className: "new-todo",
+	                  placeholder: "What needs to be done?",
+	                  type: "text",
+	                  value: text,
+	                  onKeyDown: Curry._1(update, (function ($$event, _) {
+	                          if ($$event.key === "Enter") {
+	                            Curry._1(addTodo, text);
+	                            return /* Update */Block.__(0, [""]);
+	                          } else {
+	                            return /* NoUpdate */0;
+	                          }
+	                        })),
+	                  onChange: Curry._1(update, (function ($$event, _) {
+	                          return /* Update */Block.__(0, [$$event.target.value]);
+	                        }))
+	                });
+	    });
+	  newrecord[/* initialState */10] = (function () {
+	      return "";
+	    });
+	  return newrecord;
+	}
+
+	exports.valueFromEvent = valueFromEvent;
+	exports.component      = component;
+	exports.make           = make;
+	/* component Not a pure module */
 
 
 /***/ })

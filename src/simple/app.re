@@ -2,64 +2,48 @@ open Types;
 
 type state = {
     todos: list todo,
-    todoInput: string
 };
 
 let se = ReasonReact.stringToElement;
-let lastTodoId = 0;
+let lastTodoId = ref 0;
 
 let component = ReasonReact.statefulComponent "Page";
 
-let valueFromEvent event: string =>
-    (event
-        |> ReactEventRe.Form.target
-        |> ReactDOMRe.domElementToObj
-    )##value;
-
-let make children => {
-  {
+let make _children => {
     ...component,
     initialState: fun () => {
-        todos: [],
-        todoInput: ""
+        todos: []
     },
-    render: fun {state: {todos, todoInput}, update} => {
+    render: fun {state: {todos}, update} => {
     let numOfItems = List.length todos;
     <header className="header">
         <h1>(ReasonReact.stringToElement "Todos")</h1>
-        <input
-            className="new-todo"
-            placeholder="What needs to be done?"
-            onChange=(update (fun event {state} =>
-                ReasonReact.Update {
-                    todoInput: (valueFromEvent event),
-                    todos : state.todos
-                }
-            ))
-            onKeyDown=(update (fun event {state} =>
-                if(ReactEventRe.Keyboard.key event == "Enter") {
-                    ReasonReact.Update {
-                        todos: [{
-                                title: state.todoInput,
-                                id: lastTodoId + 1,
-                                active: true
-                            },
-                            ...state.todos
-                        ],
-                        todoInput: ""
-                    }
-                } else {
-                    ReasonReact.NoUpdate;
-                }
-
-            ))
-        />
+        <TodoInput addTodo=(update (fun text {state} => {
+            lastTodoId := !lastTodoId + 1;
+            ReasonReact.Update {
+                todos:  [{
+                        id: !lastTodoId,
+                        title: text,
+                        active: true
+                    },
+                    ...state.todos
+                ]
+            }
+        }))/>
         <TodoList
             todos
             toggleTodo=(update (fun id {state} => {
                 ReasonReact.Update {
-                    todos: List.map (fun todo => todo.id === id ? todo : todo) state.todos,
-                    todoInput: state.todoInput
+                    todos: List.map (fun todo => todo.id === id ? {
+                        id: todo.id,
+                        active: not todo.active,
+                        title: todo.title
+                    } : todo) state.todos
+                }
+            }))
+            deleteTodo=(update (fun id {state} => {
+                ReasonReact.Update {
+                    todos: List.filter (fun todo => todo.id !== id) state.todos
                 }
             }))
         />
@@ -69,7 +53,6 @@ let make children => {
         </div>
     </header>
     }
-  }
 };
 
 
