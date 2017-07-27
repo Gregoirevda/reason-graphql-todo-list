@@ -21,7 +21,8 @@ let make _children => {
         <TodoInput addTodo=(update (fun text {state} => {
             lastTodoId := !lastTodoId + 1;
             ReasonReact.Update {
-                todos:  [{
+                todos:  [
+                    {
                         id: !lastTodoId,
                         title: text,
                         active: true
