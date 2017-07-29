@@ -1,58 +1,34 @@
-open Types;
-
-type state = {
-    todos: list todo,
+type networkInterface = {
+    uri: string
 };
 
-let se = ReasonReact.stringToElement;
-let lastTodoId = ref 0;
+type apolloClient = {
+ networkInterface: string
+};
 
-let component = ReasonReact.statefulComponent "Page";
+external apollo_client: apolloClient => string = "ApolloClient" [@@bs.new] [@@bs.module "react-apollo"];
+external create_network_interface: networkInterface => string = "createNetworkInterface" [@@bs.module "react-apollo"];
+
+let networkInterfaceInstance = {
+  uri: "http://api.githunt.com/graphql"
+};
+
+let apolloClientInstance = {
+ networkInterface: create_network_interface networkInterfaceInstance
+};
+
+let apolloClientInstance = apollo_client apolloClientInstance;
+
+
+
+external apollo_provider: ReasonReact.reactClass = "ApolloProvider" [@@bs.module "react-apollo"];
+
+let component = ReasonReact.statelessComponent "Test";
 
 let make _children => {
     ...component,
-    initialState: fun () => {
-        todos: []
-    },
-    render: fun {state: {todos}, update} => {
-    let numOfItems = List.length todos;
-    <header className="header">
-        <h1>(ReasonReact.stringToElement "Todos")</h1>
-        <TodoInput addTodo=(update (fun text {state} => {
-            lastTodoId := !lastTodoId + 1;
-            ReasonReact.Update {
-                todos:  [
-                    {
-                        id: !lastTodoId,
-                        title: text,
-                        active: true
-                    },
-                    ...state.todos
-                ]
-            }
-        }))/>
-        <TodoList
-            todos
-            toggleTodo=(update (fun id {state} => {
-                ReasonReact.Update {
-                    todos: List.map (fun todo => todo.id === id ? {
-                        id: todo.id,
-                        active: not todo.active,
-                        title: todo.title
-                    } : todo) state.todos
-                }
-            }))
-            deleteTodo=(update (fun id {state} => {
-                ReasonReact.Update {
-                    todos: List.filter (fun todo => todo.id !== id) state.todos
-                }
-            }))
-        />
-
-        <div>
-            (se ( "Amount of todos: " ^ string_of_int (List.length todos)))
-        </div>
-    </header>
+    render: fun _self => {
+        <TodoContainer/>
     }
 };
 
