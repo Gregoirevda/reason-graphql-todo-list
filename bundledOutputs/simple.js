@@ -67,7 +67,9 @@
 	var ReactApollo   = __webpack_require__(43);
 	var TodoContainer = __webpack_require__(92);
 
-	var networkInterfaceInstance = /* record */[/* uri */"http://api.githunt.com/graphql"];
+	var networkInterfaceInstance = {
+	  uri: "http://api.githunt.com/graphql"
+	};
 
 	var apolloClientInstance = /* record */[/* networkInterface */ReactApollo.createNetworkInterface(networkInterfaceInstance)];
 
