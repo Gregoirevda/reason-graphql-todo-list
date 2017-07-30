@@ -1,4 +1,5 @@
 open Types;
+external gql: gql = "graphql-tag" [@@bs.module];
 
 type state = {
     todos: list todo,
@@ -55,6 +56,3 @@ let make _children => {
     </header>
     }
 };
-
-
-
