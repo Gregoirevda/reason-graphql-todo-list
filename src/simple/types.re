@@ -4,7 +4,13 @@ type todo = {
     active: bool
 };
 
-type gql = ();
+type gql = string => string;
+type stuff = {
+  state: string,
+  noRetainedProps: string,
+  componentSpec: string
+};
+type graphql = string => ReasonReact.reactElement => ReasonReact.reactElement;
 
 type networkInterface = Js.t {
     .

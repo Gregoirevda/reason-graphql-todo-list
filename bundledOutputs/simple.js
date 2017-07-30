@@ -93,7 +93,7 @@
 	var ReactApollo = __webpack_require__(3);
 
 	var networkInterfaceInstance = {
-	  uri: "http://api.githunt.com/graphql"
+	  uri: "https://5mql731v9.lp.gql.zone/graphql"
 	};
 
 	var apolloClientInstance = /* record */[/* networkInterface */ReactApollo.createNetworkInterface(networkInterfaceInstance)];

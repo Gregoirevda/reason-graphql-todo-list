@@ -4,7 +4,7 @@ let make _children => {
     ...component,
     render: fun _self => {
         <ApolloProvider client=(ApolloClient.instance)>
-          <TodoContainer/>
+          <WrappedTodoContainer/>
         </ApolloProvider>
     }
 };
