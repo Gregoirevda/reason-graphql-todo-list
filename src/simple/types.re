@@ -10,7 +10,8 @@ type stuff = {
   noRetainedProps: string,
   componentSpec: string
 };
-type graphql = string => ReasonReact.reactElement => ReasonReact.reactElement;
+type graphql = string => ReasonReact.reactElement => array ReasonReact.reactElement => ReasonReact.component ReasonReact.stateless ReasonReact.noRetainedProps;
+/*  */
 
 type networkInterface = Js.t {
     .
