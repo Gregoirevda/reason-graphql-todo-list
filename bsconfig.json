@@ -11,8 +11,8 @@
       "dir": "src",
       "subdirs": [
         "simple",
-        "simple/apollo",
+        "simple/apollo"
       ]
     }
-  ],
+  ]
 }

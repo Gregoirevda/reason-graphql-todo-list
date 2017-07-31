@@ -6,12 +6,10 @@ Run this project:
 ```
 npm install
 npm start
-# in another tab
-npm run build
 ```
 
-After you see the webpack compilation succeed (the `npm run build` step), open `http://127.0.0.1:8080/`. 
-Then modify whichever file in `src` and refresh the page to see the changes.
+After you see the webpack compilation succeed, your browser will run a local server on an available port. 
+Then modify whichever file in `src` and the page will reflect the changes automatically.
 
 If you want to look at the graphQL schema, you can see it here:
 https://launchpad.graphql.com/5mql731v9
