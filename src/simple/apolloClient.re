@@ -9,5 +9,6 @@ external create_network_interface : networkInterface => string =
 let networkInterfaceInstance = {"uri": "https://5mql731v9.lp.gql.zone/graphqltest"};
 
 let apolloClientInstance = {networkInterface: create_network_interface networkInterfaceInstance};
-
-let instance = apollo_client apolloClientInstance;
+let x = apollo_client apolloClientInstance;
+Js.log x;
+let instance = x;
