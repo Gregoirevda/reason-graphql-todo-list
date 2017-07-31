@@ -55,3 +55,12 @@ let make _children => {
     </header>
   }
 };
+
+/*
+ * Why are we exposing this JS interop, even though this file's only used by the
+ * Reason side? Because the higher-order function returned by the `graphql` call
+ * (wrapper, in dataTodoContainer) asks as an input the backing ReactJS class,
+ * which Reason circumvents, and only exposes when some JS calls really needs
+ * it. Remember that a ReasonReact "class" isn't a ReactJS class.
+ */
+let jsComponent = ReasonReact.wrapReasonForJs ::component (fun _jsProps => make [||]);
