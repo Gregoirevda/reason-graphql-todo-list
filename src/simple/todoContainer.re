@@ -1,6 +1,18 @@
 open Types;
 
-type state = {todos: list todo};
+
+type state = {
+    todos: list todo
+};
+
+type response = {
+    todos: list todo,
+    loading : bool
+};
+
+type propsType = {
+    data: response
+};
 
 let se = ReasonReact.stringToElement;
 
@@ -8,10 +20,13 @@ let lastTodoId = ref 0;
 
 let component = ReasonReact.statefulComponent "Page";
 
-let make _children => {
+let make ::response _children => {
   ...component,
-  initialState: fun () => {todos: []},
+  initialState: fun () => {
+    todos: response.loading ? [] : response.todos
+  },
   render: fun {state: {todos}, update} => {
+    Js.log response;
     let numOfItems = List.length todos;
     <header className="header">
       <h1> (ReasonReact.stringToElement "Todos") </h1>
@@ -28,7 +43,7 @@ let make _children => {
         )
       />
       <TodoList
-        todos
+        todos=todos
         toggleTodo=(
           update (
             fun id {state} =>
@@ -47,7 +62,9 @@ let make _children => {
         deleteTodo=(
           update (
             fun id {state} =>
-              ReasonReact.Update {todos: List.filter (fun todo => todo.id !== id) state.todos}
+              ReasonReact.Update {
+                todos: List.filter (fun todo => todo.id !== id) state.todos
+              }
           )
         )
       />
@@ -63,4 +80,6 @@ let make _children => {
  * which Reason circumvents, and only exposes when some JS calls really needs
  * it. Remember that a ReasonReact "class" isn't a ReactJS class.
  */
-let jsComponent = ReasonReact.wrapReasonForJs ::component (fun _jsProps => make [||]);
+let jsComponent = ReasonReact.wrapReasonForJs ::component (fun props =>
+    make response::props.data [||]
+);
