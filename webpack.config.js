@@ -5,7 +5,8 @@ module.exports = {
     simple: './lib/js/src/simple/root.js',
   },
   output: {
-    path: path.join(__dirname, "bundledOutputs"),
+    path: path.join(__dirname, 'bundledOutputs'),
+    publicPath: "/assets/",
     filename: '[name].js',
   },
 };
