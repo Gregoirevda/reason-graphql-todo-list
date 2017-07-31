@@ -9,7 +9,10 @@
   "sources": [
     {
       "dir": "src",
-      "subdirs": ["simple"]
+      "subdirs": [
+        "simple",
+        "simple/apollo",
+      ]
     }
   ],
 }
