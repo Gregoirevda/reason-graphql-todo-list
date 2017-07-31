@@ -24,7 +24,6 @@ type stuff = {
   componentSpec: string
 };
 
-/*  */
 type networkInterface = Js.t {. uri : string};
 
-type apolloClient = {networkInterface: string};
+type apolloClient = Js.t {. networkInterface: string};
