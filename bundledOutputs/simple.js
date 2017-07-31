@@ -20983,8 +20983,8 @@
 	                  className: "main"
 	                }, React.createElement("ul", {
 	                      className: "todo-list"
-	                    }, $$Array.of_list(List.mapi((function (index, todo) {
-	                                return ReasonReact.element(/* Some */[Pervasives.string_of_int(index)], /* None */0, TodoItem.make(todo, (function () {
+	                    }, $$Array.of_list(List.map((function (todo) {
+	                                return ReasonReact.element(/* Some */[Pervasives.string_of_int(todo[/* id */0])], /* None */0, TodoItem.make(todo, (function () {
 	                                                  return Curry._1(toggleTodo, todo[/* id */0]);
 	                                                }), (function () {
 	                                                  return Curry._1(deleteTodo, todo[/* id */0]);
