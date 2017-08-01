@@ -16,6 +16,10 @@ type gql = (string => query) [@bs];
 
 type wrapper = (ReasonReact.reactClass => ReasonReact.reactClass) [@bs];
 
+type graphql_config = {
+    name: string
+};
+
 type graphql = (query => wrapper) [@bs];
 
 type stuff = {

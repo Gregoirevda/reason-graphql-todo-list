@@ -1,11 +1,20 @@
 open Types;
 
-
-type state = {
-    todos: list todo
+type todoJS = Js.t {
+    .
+    active: bool,
+    title: string
+};
+type todoInput = Js.t {
+    .
+    todo: todoJS
+};
+type mutation = Js.t {
+    .
+    variables: todoInput
 };
 
-type response = {
+type response = Js.t {.
     todos: list todo,
     loading : bool
 };
@@ -20,55 +29,28 @@ let lastTodoId = ref 0;
 
 let component = ReasonReact.statefulComponent "Page";
 
-let make ::response _children => {
+let make ::query ::apollo _children => {
   ...component,
-  initialState: fun () => {
-    todos: response.loading ? [] : response.todos
-  },
-  render: fun {state: {todos}, update} => {
-    Js.log response;
-    let numOfItems = List.length todos;
+  render: fun self => {
+    Js.log query;
+    Js.log apollo;
+    let numOfItems = List.length (query##loading ? [] : query##todos);
     <header className="header">
       <h1> (ReasonReact.stringToElement "Todos") </h1>
       <TodoInput
         addTodo=(
-          update (
-            fun text {state} => {
-              lastTodoId := !lastTodoId + 1;
-              ReasonReact.Update {
-                todos: [{id: !lastTodoId, title: text, active: true}, ...state.todos]
-              }
-            }
-          )
+        fun _ => {
+            let mutation = {
+                "variables": {
+                    "title": "test",
+                    "active": Js.true_
+                }
+            };
+            apollo##mutate mutation;
+        }
         )
       />
-      <TodoList
-        todos=todos
-        toggleTodo=(
-          update (
-            fun id {state} =>
-              ReasonReact.Update {
-                todos:
-                  List.map
-                    (
-                      fun todo =>
-                        todo.id === id ?
-                          {id: todo.id, active: not todo.active, title: todo.title} : todo
-                    )
-                    state.todos
-              }
-          )
-        )
-        deleteTodo=(
-          update (
-            fun id {state} =>
-              ReasonReact.Update {
-                todos: List.filter (fun todo => todo.id !== id) state.todos
-              }
-          )
-        )
-      />
-      <div> (se ("Amount of todos: " ^ string_of_int (List.length todos))) </div>
+      <div> (se ("Amount of todos: " ^ string_of_int (List.length query##todos))) </div>
     </header>
   }
 };
@@ -80,6 +62,8 @@ let make ::response _children => {
  * which Reason circumvents, and only exposes when some JS calls really needs
  * it. Remember that a ReasonReact "class" isn't a ReactJS class.
  */
-let jsComponent = ReasonReact.wrapReasonForJs ::component (fun props =>
-    make response::props.data [||]
+let jsComponent = ReasonReact.wrapReasonForJs ::component (fun props => {
+       make query::props##data apollo::props [||];
+}
+
 );
