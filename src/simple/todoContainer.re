@@ -31,7 +31,7 @@ let component = ReasonReact.statefulComponent "Page";
 
 let make ::query ::apollo _children => {
   ...component,
-  render: fun self => {
+  render: fun _self => {
     Js.log query;
     Js.log apollo;
     let numOfItems = List.length (query##loading ? [] : query##todos);
@@ -50,7 +50,7 @@ let make ::query ::apollo _children => {
         }
         )
       />
-      <div> (se ("Amount of todos: " ^ string_of_int (List.length query##todos))) </div>
+      <div> (se ("Amount of todos: " ^ string_of_int numOfItems)) </div>
     </header>
   }
 };

@@ -15,11 +15,6 @@ let todos_query =
   }
 |} [@bs];
 
-
-let todos_query_config = {
-    name: "todosQuery"
-};
-
 let add_todo_mutation =
   gql {|
   mutation addTodo($title: String!, $active: Boolean!) {
@@ -34,15 +29,44 @@ let add_todo_mutation =
   }
 |} [@bs];
 
+let toggle_todo_mutation =
+gql {|
+    mutation toggleTodo($id: ID!) {
+        toggleTodo(id: $id) {
+          id
+          title
+          active
+        }
+    }
+|} [@bs];
+
+let delete_todo_mutation =
+gql {|
+    mutation deleteTodo($id: ID!) {
+        deleteTodo(id: $id) {
+          id
+          title
+          active
+        }
+    }
+|} [@bs];
+
+let addTodoConfig = { "name": "addTodoMutation" };
 let addTodoWrapper = graphql add_todo_mutation [@bs];
 let wrappedAddTodoComponent: ReasonReact.reactClass = addTodoWrapper TodoContainer.jsComponent [@bs];
 
 let queryWrapper = graphql todos_query [@bs];
 let wrappedQueryTodosComponent: ReasonReact.reactClass = queryWrapper wrappedAddTodoComponent [@bs];
 
+let toggleTodoWrapper = graphql toggle_todo_mutation [@bs];
+let wrappedToggleTodoMutationComponent: ReasonReact.reactClass = toggleTodoWrapper wrappedQueryTodosComponent [@bs];
+
+let deleteTodoWrapper = graphql delete_todo_mutation [@bs];
+let wrappedDeleteTodoMutationComponent: ReasonReact.reactClass = deleteTodoWrapper wrappedToggleTodoMutationComponent [@bs];
+
 /*
  * this is unfortunate (but legit, and a supported use-case of ReasonReact). See
  * the comment in todoContainer, at the end. In the future, hopefully we can cut
  * out the js part in reason->js->js->reason */
 let make children =>
-  ReasonReact.wrapJsForReason reactClass::wrappedQueryTodosComponent props::(Js.Obj.empty ()) children;
+  ReasonReact.wrapJsForReason reactClass::wrappedDeleteTodoMutationComponent props::(Js.Obj.empty ()) children;

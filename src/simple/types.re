@@ -6,6 +6,10 @@ type todo = {
 
 /* we give the query (under the hood, it's a string) an opaque type. This way nobody can accidentally use it as a string  */
 type query;
+type apolloConfig = Js.t {
+    .
+    name: string
+};
 
 /*
  * annotate the function with [@bs] so that it's statically verified to be fully
@@ -16,7 +20,7 @@ type gql = (string => query) [@bs];
 
 type wrapper = (ReasonReact.reactClass => ReasonReact.reactClass) [@bs];
 
-type graphql_config = {
+type graphql_config = Js.t {.
     name: string
 };
 
