@@ -6,7 +6,7 @@ external apollo_client : apolloClient => string =
 external create_network_interface : networkInterface => string =
   "createNetworkInterface" [@@bs.module "react-apollo"];
 
-let networkInterfaceInstance = {"uri": "https://5mql731v9.lp.gql.zone/graphql"};
+let networkInterfaceInstance = {"uri": "http://localhost:3010/graphql"};
 
 let apolloClientInstance = {"networkInterface": create_network_interface networkInterfaceInstance};
 let instance = apollo_client apolloClientInstance;

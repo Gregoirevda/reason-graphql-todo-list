@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
+    "start:server": "node src/apollo-server/",
     "build": "bsb -make-world -w",
     "clean": "bsb -clean-world"
   },
@@ -13,7 +14,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "^1.0.5",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "express": "^4.15.3",
     "graphql-tag": "^2.4.2",
+    "graphql-tools": "^1.1.0",
     "react": "^15.4.2",
     "react-apollo": "^1.4.8",
     "react-dom": "^15.4.2",
