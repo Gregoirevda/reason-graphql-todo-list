@@ -14,5 +14,5 @@ app.use(cors());
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: schema }));
 
 app.listen(PORT, () => {
-  console.log('server listening on localhost:', PORT);
+  console.log('Great, now open a new tab and run npm start');
 });

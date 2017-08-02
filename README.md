@@ -5,13 +5,17 @@ Run this project:
 
 ```
 npm install
-npm start
+npm run start:server
+npm start # in a new tab
 ```
 
-After you see the webpack compilation succeed, your browser will run a local server on an available port. 
-Then modify whichever file in `src` and the page will reflect the changes automatically.
+Once your express server is running with `npm run start:server`,  
+open a new tab and start the client with `npm start`
+this will run your client written in ReasonML.
+Then modify whichever `.re` file in `src/simple/` and the page will reflect the changes automatically.
 
-If you want to look at the graphQL schema, you can see it here:
-https://launchpad.graphql.com/5mql731v9
+You can see and modify the graphQL schema, running in express in `apollo-server/schema`. (install nodemon to automatically restart the server)
 
-You can fork it and play with it in the apollo-launchpad
+The client is build using ReasonReact.  
+`dataTodoContainer.re` uses graphql from react-apollo to enhance ReasonML components with queries and mutations.
+`todoContainer.re` uses the query and mutations
