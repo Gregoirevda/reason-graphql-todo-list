@@ -1,8 +1,3 @@
-// Welcome to Launchpad!
-// Log in to edit and save pads, run queries in GraphiQL on the right.
-// Click "Download" above to get a zip with a standalone Node.js server.
-// See docs and examples at https://github.com/apollographql/awesome-launchpad
-
 // graphql-tools combines a schema string with resolvers.
 const {makeExecutableSchema} = require('graphql-tools');
 
@@ -64,7 +59,6 @@ const resolvers = {
   }
 };
 
-// Required: Export the GraphQL.js schema object as "schema"
 exports.schema = makeExecutableSchema({
   typeDefs,
   resolvers,
