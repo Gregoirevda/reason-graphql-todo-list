@@ -29,12 +29,12 @@ let lastTodoId = ref 0;
 
 let component = ReasonReact.statefulComponent "Page";
 
-let make ::query ::apollo _children => {
+let make ::todosQuery ::addTodoMutation ::toggleTodoMutation ::deleteTodoMutation _children => {
   ...component,
   render: fun _self => {
-    Js.log query;
-    Js.log apollo;
-    let numOfItems = List.length (query##loading ? [] : query##todos);
+    let nonNullTodos = todosQuery##loading ? [] : todosQuery##todos;
+  Js.log todosQuery##todos;
+    let numOfItems = List.length nonNullTodos;
     <header className="header">
       <h1> (ReasonReact.stringToElement "Todos") </h1>
       <TodoInput
@@ -46,10 +46,19 @@ let make ::query ::apollo _children => {
                     "active": Js.true_
                 }
             };
-            apollo##mutate mutation;
+            addTodoMutation mutation;
         }
         )
       />
+    <TodoList
+        todos=nonNullTodos
+        toggleTodo=(
+          fun id => toggleTodoMutation(id)
+        )
+        deleteTodo=(
+          fun id => deleteTodoMutation(id)
+        )
+    />
       <div> (se ("Amount of todos: " ^ string_of_int numOfItems)) </div>
     </header>
   }
@@ -63,7 +72,11 @@ let make ::query ::apollo _children => {
  * it. Remember that a ReasonReact "class" isn't a ReactJS class.
  */
 let jsComponent = ReasonReact.wrapReasonForJs ::component (fun props => {
-       make query::props##data apollo::props [||];
+       make
+       addTodoMutation::props##addTodoMutation
+       todosQuery::props##todosQuery
+       toggleTodoMutation::props##toggleTodoMutation
+       deleteTodoMutation::props##deleteTodoMutation [||];
 }
 
 );

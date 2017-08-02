@@ -60,24 +60,23 @@ let delete_todo_mutation =
 |}
   [@bs];
 
-let addTodoConfig = {"name": "addTodoMutation"};
 
-let addTodoWrapper = graphql add_todo_mutation [@bs];
+let addTodoWrapper = graphqlWithConfig add_todo_mutation (graphqlConfig name::"addTodoMutation" ()) [@bs];
 
 let wrappedAddTodoComponent: ReasonReact.reactClass =
   addTodoWrapper TodoContainer.jsComponent [@bs];
 
-let queryWrapper = graphql todos_query [@bs];
+let queryWrapper = graphqlWithConfig todos_query (graphqlConfig name::"todosQuery"()) [@bs];
 
 let wrappedQueryTodosComponent: ReasonReact.reactClass =
   queryWrapper wrappedAddTodoComponent [@bs];
 
-let toggleTodoWrapper = graphql toggle_todo_mutation [@bs];
+let toggleTodoWrapper = graphqlWithConfig toggle_todo_mutation (graphqlConfig name::"toggleTodoMutation"()) [@bs];
 
 let wrappedToggleTodoMutationComponent: ReasonReact.reactClass =
   toggleTodoWrapper wrappedQueryTodosComponent [@bs];
 
-let deleteTodoWrapper = graphql delete_todo_mutation [@bs];
+let deleteTodoWrapper = graphqlWithConfig delete_todo_mutation (graphqlConfig name::"deleteTodoMutation"()) [@bs];
 
 let wrappedDeleteTodoMutationComponent: ReasonReact.reactClass =
   deleteTodoWrapper wrappedToggleTodoMutationComponent [@bs];

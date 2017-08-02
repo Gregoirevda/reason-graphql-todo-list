@@ -24,9 +24,9 @@ type graphqlConfig;
 
 external graphqlConfig :
   name::string =>
-  alias::string =>
-  skip::Js.boolean =>
-  skip__func::'whateverTooLazy =>
+  alias::string? =>
+  skip::Js.boolean? =>
+  skip__func::'whateverTooLazy? =>
   unit =>
   graphqlConfig =
   "" [@@bs.obj];
