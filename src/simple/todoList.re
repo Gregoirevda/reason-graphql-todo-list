@@ -6,26 +6,28 @@ let component = ReasonReact.statelessComponent "TodosList";
 
 let make ::todos ::toggleTodo ::deleteTodo _children => {
   ...component,
-  render: fun self =>
+  render: fun self => {
     <section className="main">
-      <ul className="todo-list">
-        (
-          ReasonReact.arrayToElement (
-            Array.of_list (
-              List.map
-                (
-                  fun todo =>
-                    <TodoItem
-                      key=(string_of_int todo.id)
-                      todo
-                      toggleTodo=(fun _ => toggleTodo todo.id)
-                      deleteTodo=(fun _ => deleteTodo todo.id)
-                    />
+          <ul className="todo-list">
+            (
+              ReasonReact.arrayToElement (
+                Array.of_list (
+                  List.map
+                    (
+                      fun todo => {
+                        <TodoItem
+                          key=(todo##id)
+                          todo
+                          toggleTodo=(fun _ => toggleTodo todo##id)
+                          deleteTodo=(fun _ => deleteTodo todo##id)
+                        />
+                      }
+                    )
+                    todos
                 )
-                todos
+              )
             )
-          )
-        )
-      </ul>
-    </section>
+          </ul>
+        </section>
+  }
 };

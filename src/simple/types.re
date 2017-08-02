@@ -1,4 +1,4 @@
-type todo = {
+type todo = Js.t {.
   id: int,
   title: string,
   active: bool
