@@ -32,7 +32,6 @@ let component = ReasonReact.statefulComponent "Page";
 let make ::todosQuery ::addTodoMutation ::toggleTodoMutation ::deleteTodoMutation _children => {
   ...component,
   render: fun _self => {
-    Js.log todosQuery##todos;
     let nonNullTodos = if(todosQuery##loading) { [] } else { Array.to_list todosQuery##todos };
     let numOfItems = List.length nonNullTodos;
     <header className="header">

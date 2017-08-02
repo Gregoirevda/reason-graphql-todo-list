@@ -42,6 +42,7 @@ const resolvers = {
   },
   Mutation: {
     deleteTodo: (_, {id}) => {
+      console.log(todos, id);
       todos = todos.filter(todo => todo.id !== id);
       return todos;
     },
@@ -54,7 +55,7 @@ const resolvers = {
     addTodo: (_, {title, active}) => {
       todos = [
         ...todos, {
-          id: todos.reduce((id, todo) => parseInt(todo.id, 10) + 1, 1),
+          id: todos.reduce((id, todo) => parseInt(todo.id, 10) + 1, 1).toString(),
           title,
           active
         }];
