@@ -6,10 +6,8 @@ type todo = {
 
 /* we give the query (under the hood, it's a string) an opaque type. This way nobody can accidentally use it as a string  */
 type query;
-type apolloConfig = Js.t {
-    .
-    name: string
-};
+
+type apolloConfig = Js.t {. name : string};
 
 /*
  * annotate the function with [@bs] so that it's statically verified to be fully
@@ -20,11 +18,22 @@ type gql = (string => query) [@bs];
 
 type wrapper = (ReasonReact.reactClass => ReasonReact.reactClass) [@bs];
 
-type graphql_config = Js.t {.
-    name: string
-};
+/* we can't easily use the Js.t {. ...} format here, since some config fields are optional */
+/* what's the props field exactly? */
+type graphqlConfig;
+
+external graphqlConfig :
+  name::string =>
+  alias::string =>
+  skip::Js.boolean =>
+  skip__func::'whateverTooLazy =>
+  unit =>
+  graphqlConfig =
+  "" [@@bs.obj];
 
 type graphql = (query => wrapper) [@bs];
+
+type graphqlWithConfig = (query => graphqlConfig => wrapper) [@bs];
 
 type stuff = {
   state: string,
@@ -34,4 +43,4 @@ type stuff = {
 
 type networkInterface = Js.t {. uri : string};
 
-type apolloClient = Js.t {. networkInterface: string};
+type apolloClient = Js.t {. networkInterface : string};
