@@ -10,7 +10,6 @@ const typeDefs = `
 		title: String!
     active: Boolean!
 	}
-
 	type Todo {
 		id: ID!
     title: String!
