@@ -18,3 +18,5 @@ You can see and modify the graphQL schema, running in express in `apollo-server/
 The client is build using [ReasonReact](https://github.com/reasonml/reason-react).  
 `dataTodoContainer.re` uses graphql from react-apollo to enhance ReasonML components with queries and mutations.
 `todoContainer.re` uses the query and mutations
+
+If you're looking for a very simple/basic example: https://github.com/Gregoirevda/graphql-reason-simple-example
