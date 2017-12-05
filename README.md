@@ -1,5 +1,5 @@
-*** This repository uses plain GraphQL, Reason and Apollo.
-**** If you're looking for an easier way to use GraphQL, checkout the [bindings](https://github.com/Gregoirevda/reason-apollo-test-usage)
+### This repository uses plain GraphQL, Reason and Apollo.
+#### If you're looking for an easier way to use GraphQL, checkout the [bindings](https://github.com/Gregoirevda/reason-apollo-test-usage)
 
 Have something you don't understand? Join us on [Discord](https://discord.gg/reasonml)!
 
